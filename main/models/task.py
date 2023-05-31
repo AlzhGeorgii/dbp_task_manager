@@ -25,16 +25,13 @@ class Task(models.Model):
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField()
     date_finish = models.DateTimeField()
-    state = models.CharField(
-        max_length=255, default=State.NEW, choices=State.choices
-    )
-    priority = models.IntegerField(
-        default=Priority.LOW, choices=Priority.choices
-    )
+    state = models.CharField(max_length=255, default=State.NEW, choices=State.choices)
+    priority = models.IntegerField(default=Priority.LOW, choices=Priority.choices)
     tags = models.ManyToManyField(Tag, related_name="tasks")
-    task_creator = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="created_tasks"
-    )
+    task_creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_tasks")
     task_performer = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_tasks"
     )
+
+    def __str__(self):
+        return f"Task '{self.title}', state: {self.state}, id: {self.id}"
